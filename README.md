@@ -59,7 +59,7 @@ sudo nano /etc/ssh/sshd_config
 ```
 Change ```PasswordAuthentication``` from no to ```Yes```. Save the file and restart the SSH service
 
-1. Service ssh restart
+4. Service ssh restart
 ```
 sudo systemctl restart ssh
 ```
@@ -79,6 +79,7 @@ ssh-keygen
 ```
 ssh-copy-id username@server_ip
 ```
+si hay error revisar Troubleshooting
 
  3. Authenticating to Your Ubuntu Server Using SSH Keys
 ```
@@ -87,7 +88,7 @@ ssh username@remote_host
 
 <br>
 
-> :bulb: **Tip:** Copying the Public Key to Your Ubuntu Server and create folder
+> :bulb: **Tip:** Copying the Public Key to Your Ubuntu Server and create folder (one command)
 ```
 cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && cat >> ~/.ssh/authorized_keys"
 ```
