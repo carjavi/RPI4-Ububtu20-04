@@ -51,15 +51,18 @@ chmod 600 ~/.ssh/authorized_keys
 3. Verify Password Authentication
 ```
 cat /etc/ssh/sshd_config | grep PasswordAuthentication
-Debe decir "Yes". sino cambiar con el siguiente comando
 ```
+Debe decir "Yes". sino cambiar con el siguiente comando:
 
-4.  Password Authentication
 ```
 sudo nano /etc/ssh/sshd_config
 ```
-Change PasswordAuthentication from no to yes. Save the file and restart the SSH service:
-sudo service ssh restart
+Change ```PasswordAuthentication``` from no to ```Yes```. Save the file and restart the SSH service
+
+1. Service ssh restart
+```
+sudo systemctl restart ssh
+```
 
 <br>
 
@@ -72,10 +75,23 @@ sudo service ssh restart
 ssh-keygen
 ```
 
-2. Copy Public Key to Remote Server
+2. Copying the Public Key to Your Ubuntu Server
 ```
 ssh-copy-id username@server_ip
 ```
+
+ 3. Authenticating to Your Ubuntu Server Using SSH Keys
+```
+ssh username@remote_host
+```
+
+<br>
+
+> :bulb: **Tip:** Copying the Public Key to Your Ubuntu Server and create folder
+```
+cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && cat >> ~/.ssh/authorized_keys"
+```
+
 
 Creating and Using SSH Keys with GUI: https://www.purdue.edu/science/scienceit/ssh-keys-windows.html
 
@@ -102,7 +118,7 @@ sudo nano /etc/ssh/sshd_config
 Change ```PasswordAuthentication``` from no to ```Yes```. Save the file and restart the SSH service
 
 ```
-sudo service ssh restart
+sudo systemctl restart ssh
 ```
 
 
