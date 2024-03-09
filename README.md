@@ -9,8 +9,8 @@
 
 <br>
 
-# Table of Contents
-- [Table of Contents](#table-of-contents)
+# Table of Contentscd ¿cd 
+- [Table of Contentscd ¿cd](#table-of-contentscd-cd)
 - [How to Setup WiFi on Raspberry Pi 4 with Ubuntu 20.04 LTS 64-bit ARM Server](#how-to-setup-wifi-on-raspberry-pi-4-with-ubuntu-2004-lts-64-bit-arm-server)
 - [Setting SSH Ubuntu Server 20.04](#setting-ssh-ubuntu-server-2004)
 - [How to Set Up SSH Key on Windows 10](#how-to-set-up-ssh-key-on-windows-10)
@@ -29,6 +29,12 @@
 - [YAML file](#yaml-file)
 - [How to Set a Static IP Using the GUI](#how-to-set-a-static-ip-using-the-gui)
 - [Temporary IP address assignment](#temporary-ip-address-assignment)
+- [Enabling I2C RPI Ubuntu 20.04](#enabling-i2c-rpi-ubuntu-2004)
+  - [Install raspi-config](#install-raspi-config)
+  - [Fix Permission Error](#fix-permission-error)
+- [Probar camara USB ubuntu server (consola)](#probar-camara-usb-ubuntu-server-consola)
+  - [comandos para probar si esta conectada](#comandos-para-probar-si-esta-conectada)
+  - [Picture with fswebcam](#picture-with-fswebcam)
   
   
 
@@ -284,7 +290,46 @@ ip link set dev enp0s25 down
 
 ip address show dev enp0s25
 ```
+<br>
 
+# Enabling I2C RPI Ubuntu 20.04
+## Install raspi-config
+
+1. wget https://archive.raspberrypi.org/debian/pool/main/r/raspi-config/raspi-config_20200601_all.deb
+2. sudo dpkg -i raspi-config_20200601_all.deb
+3. sudo apt-get install -f
+4. sudo raspi-config
+5. sudo apt-get install i2c-tools libi2c-dev python3-smbus
+6. i2cdetect -y 1
+   
+## Fix Permission Error
+Create an I2C usergroup and apply it to the bus:
+```
+sudo groupadd i2c
+sudo chown :i2c /dev/i2c-1
+sudo chmod g+rw /dev/i2c-1
+```
+Add your user to this group:
+```
+sudo usermod -a -G i2c $USER
+```
+
+<br>
+
+# Probar camara USB ubuntu server (consola)
+
+## comandos para probar si esta conectada
+```
+dmesg | grep -i "Camera"
+ls -ltrh /dev/video*
+sudo apt install v4l-utils
+```
+
+## Picture with fswebcam
+```
+sudo apt-get install fswebcam
+fswebcam -r 640x480 --jpeg 85 -D 1 web-cam-shot.jpg
+```
 
 <br>
 
