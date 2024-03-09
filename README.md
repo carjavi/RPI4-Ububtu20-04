@@ -121,9 +121,10 @@ Change ```PasswordAuthentication``` from no to ```Yes```. Save the file and rest
 ```
 sudo systemctl restart ssh
 ```
+<br>
 
 # Ubuntu RPi Static IP Address
-## Configure Static IP Address via Netplan Configuration File
+```Configure Static IP Address via Netplan Configuration File``` <br>
 Netplan is a utility for easily configuring networking on a Ubuntu Linux system. Introduced in Ubuntu 18.04 and later versions, Netplan has become the default network management tool.
 
 It uses ```YAML``` configuration files, offering a declarative approach to network configuration.
