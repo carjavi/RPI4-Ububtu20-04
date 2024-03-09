@@ -122,6 +122,142 @@ Change ```PasswordAuthentication``` from no to ```Yes```. Save the file and rest
 sudo systemctl restart ssh
 ```
 
+# Ubuntu RPi Static IP Address
+## Configure Static IP Address via Netplan Configuration File
+Netplan is a utility for easily configuring networking on a Ubuntu Linux system. Introduced in Ubuntu 18.04 and later versions, Netplan has become the default network management tool.
+
+It uses ```YAML``` configuration files, offering a declarative approach to network configuration.
+
+
+### Command below to find details of the available adapters
+```
+ip a
+```
+```
+ls /sys/class/net/
+```
+``` 
+ifconfig -a
+```
+
+Note the current network adapter name:
+```
+eth0  lo  wlan0
+```
+
+
+# Find YAML file
+el siguiente directorio /etc/netplan/ alli deberíamos poder ver un archivo con extension .yaml
+```
+ls /etc/netplan/
+```
+
+```
+01-network-manager-all.yaml // // Para el caso de Ubuntu Server 18.04
+00-installer-config.yaml // Para el caso de Ubuntu Server 20.04
+50-cloud-init.yaml  // The following worked for me in Ubuntu 22.04
+```
+
+# Respaldar archivo origial de configiración
+samples:
+```
+cp /etc/netplan/00-installer-config.yaml /root/00-installer-config.yaml.org
+cp /etc/netplan/50-cloud-init.yaml /home/<User>/50-cloud-init.yaml.backup
+```
+
+# Make configuration changes
+```
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+para eth0
+```
+ethernets:
+   eth0:
+     dhcp4: false
+     addresses: [192.168.2.2/24]
+     gateway4: 192.168.2.1
+```
+NOTA: La identacion es MUY importante!
+
+<p align="center"><img src="./img/ip-stactic.png" height="400" alt=" " /></p>
+
+<br>
+
+# Validate Configuration File
+Before applying any changes, always validate the configuration using the command:
+```
+sudo netplan generate
+```
+
+# Apply and test the changes
+```
+sudo netplan try
+```
+
+# Validate changes
+```
+ip a
+```
+en la consola:
+```
+eth0
+inet: <ip que pusimos>
+```
+
+
+# Restart the Network Service (Optional):
+```
+sudo systemctl restart systemd-networkd
+```
+```
+sudo reboot
+```
+
+# YAML file
+The top-level node in a Netplan configuration file is a ```network:```<br>
+```version: 2``` means that it is using network definition version 2 <br>
+```renderer``` is systemd-networkd by default, but we'll set it to networkmanager or networkd.<br>
+```Adapter name:``` wifis, ethernets, modems or bridges. <br>
+```dhcp4```: indicamos si queremos que el protocolo ipv4 utilice DHCP para la asignación de IP(no,yes, true,false)<br>
+```dhcp6```: Igual que en el ipv4 pero en este caso con ipv6<br>
+```addresses```: lista de direcciones en formato xxx.xxx.xxx.xxx/yy en donde yy son los bits que usamos para la máscara. Si nuestra máscara de subred es 255.255.255.0 entonces sería /24. <br>
+```gateway4```: la puerta de enlace predeterminada de la ipv4<br>
+```gateway6```: Igual que en el ipv4 pero en este caso con ipv6<br>
+```nameservers```: . Aquí vamos a indicar la direcciones ip, mas conocidas como direcciones DNS. Las ponemos entre [] y podemos separarlas por comas como lo podemos ver en el ejemplo indicado. <br>
+
+# How to Set a Static IP Using the GUI
+https://www.freecodecamp.org/news/setting-a-static-ip-in-ubuntu-linux-ip-address-tutorial/
+
+# Temporary IP address assignment
+To use this command to add a temporary IP address, we need to use the 'add' and 'dev' options with the command.
+```
+ip addr add [ip_address/subnet_mask] dev [interface_name]
+
+```
+samples:
+The following command adds the IP address 192.168.1.10/24 to the ens160 interface.
+```
+ip addr add 192.168.1.10 255.255.255.0 dev ens160
+```
+To verify the new IP address, you can check the IP configuration of the device again.
+```
+ip addr ens160
+```
+
+To force Linux to reread this file, you can use the ifdown and ifup commands. Specify the interface name as the argument with these commands.
+```
+ifdown ens160
+ifup ens160
+```
+
+other sample:
+```
+sudo ip addr add 10.102.66.200/24 dev enp0s25
+ip link set dev enp0s25 up
+ip link set dev enp0s25 down
+
+ip address show dev enp0s25
+```
 
 
 <br>
