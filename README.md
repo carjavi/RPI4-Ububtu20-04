@@ -9,6 +9,31 @@
 
 <br>
 
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [How to Setup WiFi on Raspberry Pi 4 with Ubuntu 20.04 LTS 64-bit ARM Server](#how-to-setup-wifi-on-raspberry-pi-4-with-ubuntu-2004-lts-64-bit-arm-server)
+- [Setting SSH Ubuntu Server 20.04](#setting-ssh-ubuntu-server-2004)
+- [How to Set Up SSH Key on Windows 10](#how-to-set-up-ssh-key-on-windows-10)
+- [Troubleshooting](#troubleshooting)
+    - [SSH Permission Denied (publickey)](#ssh-permission-denied-publickey)
+    - [Password Authentication](#password-authentication)
+- [Ubuntu RPi Static IP Address](#ubuntu-rpi-static-ip-address)
+    - [Command below to find details of the available adapters](#command-below-to-find-details-of-the-available-adapters)
+- [Find YAML file](#find-yaml-file)
+- [Respaldar archivo origial de configiración](#respaldar-archivo-origial-de-configiración)
+- [Make configuration changes](#make-configuration-changes)
+- [Validate Configuration File](#validate-configuration-file)
+- [Apply and test the changes](#apply-and-test-the-changes)
+- [Validate changes](#validate-changes)
+- [Restart the Network Service (Optional):](#restart-the-network-service-optional)
+- [YAML file](#yaml-file)
+- [How to Set a Static IP Using the GUI](#how-to-set-a-static-ip-using-the-gui)
+- [Temporary IP address assignment](#temporary-ip-address-assignment)
+  
+  
+
+<br>
+
 # How to Setup WiFi on Raspberry Pi 4 with Ubuntu 20.04 LTS 64-bit ARM Server
 
 1. Find WiFi card name:
